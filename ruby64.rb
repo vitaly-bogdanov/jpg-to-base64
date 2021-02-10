@@ -30,7 +30,8 @@ class SecretJpg
         unless Dir.exist? DECODED_DIR_NAME
           Dir.mkdir DECODED_DIR_NAME
         end
-        File.open("./#{DECODED_DIR_NAME}/#{file_name}", 'w') { |file| file.write Base64.decode64(value) }
+        IO.binwrite("./#{DECODED_DIR_NAME}/#{file_name}", Base64.decode64(value)) 
+        # File.open("./#{DECODED_DIR_NAME}/#{file_name}", 'w') { |file| file.write Base64.decode64(value) }
       end
     else
       raise 'В исходной директории нет файла для расшифровки'

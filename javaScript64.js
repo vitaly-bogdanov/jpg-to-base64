@@ -39,22 +39,23 @@ let SecretJpg = {
       throw `${this.encodedFileName} not exists`
     }
     if (this.existsDirection()) {
-      this.clearDirection(() => {
-        this.makeDirection(() => {
-          this.writeDecodedFiles();
-        });
-      });
+      // this.clearDirection(() => {
+      //   this.makeDirection(() => {
+      //     this.writeDecodedFiles();
+      //   });
+      // });
+      this.clearDirection()
+        .then(() => this.makeDirection())
+        .then(() => this.writeDecodedFiles());
     } else {
-      this.makeDirection(() => {
-        this.writeDecodedFiles();
-      })
+      this.makeDirection()
+        .then(() => this.writeDecodedFiles());
     }
   },
 
-  clearDirection: function (callback) {
+  clearDirection: async function () {
     rm(`./${this.decodedDirName}`, {recursive: true}, (err) => {
       if (err) throw err;
-      callback && callback();
     });
   },
 
@@ -70,10 +71,9 @@ let SecretJpg = {
     this.clearCode();
   },
 
-  makeDirection: function (callback) {
+  makeDirection: async function () {
     mkdir(`./${this.decodedDirName}`, { recursive: false }, (error) => {
       if (error) throw error 
-      callback && callback();
     });
   },
 
@@ -91,5 +91,8 @@ let SecretJpg = {
       .forEach(file => writeFileSync(`./${this.decodedDirName}/${file[0]}`, file[1]));
   }
 }
+
+// SecretJpg.encode();
+SecretJpg.decode();
 
 module.exports = SecretJpg;
