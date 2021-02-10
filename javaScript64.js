@@ -39,11 +39,6 @@ let SecretJpg = {
       throw `${this.encodedFileName} not exists`
     }
     if (this.existsDirection()) {
-      // this.clearDirection(() => {
-      //   this.makeDirection(() => {
-      //     this.writeDecodedFiles();
-      //   });
-      // });
       this.clearDirection()
         .then(() => this.makeDirection())
         .then(() => this.writeDecodedFiles());
